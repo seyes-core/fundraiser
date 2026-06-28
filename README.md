@@ -578,4 +578,4 @@ If you encounter issues setting up the project:
 
 ---
 
-*Built with care for Temitope Ogungbuji's journey into software development.*
+*Built with care for Temitope Ogungbuji's journey into data and software solutions*
