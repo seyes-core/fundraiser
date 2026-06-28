@@ -94,3 +94,14 @@ export interface PaymentInitResponse {
   payment_link: string;
   tx_ref: string;
 }
+
+// Alias for backward compatibility
+export type SubmissionType = SupportType;
+
+export const DONATION_TIERS = [
+  { amount: 1000,  label: "₦1,000" },
+  { amount: 2500,  label: "₦2,500" },
+  { amount: 5000,  label: "₦5,000" },
+  { amount: 10000, label: "₦10,000" },
+  { amount: 20000, label: "₦20,000" },
+] as const;

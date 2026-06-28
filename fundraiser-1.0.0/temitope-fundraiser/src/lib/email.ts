@@ -41,13 +41,35 @@ export async function sendDonorThankYou(
   });
 }
 
+export async function sendAdminDonationNotification(
+  amount: number,
+  txRef: string,
+  data: {
+    email?: string | null;
+    twitter?: string | null;
+    linkedin?: string | null;
+    discord?: string | null;
+    anonymous?: boolean;
+  }
+) {
+  return notifyAdmin({ 
+    amount, 
+    txRef,
+    email: data.email ?? undefined,
+    twitter: data.twitter ?? undefined,
+    linkedin: data.linkedin ?? undefined,
+    discord: data.discord ?? undefined,
+   });
+}
+
 export async function notifyAdmin(data: {
   amount: number;
   txRef: string;
-  email?: string;
-  twitter?: string;
-  linkedin?: string;
-  discord?: string;
+  email?: string | null;
+  twitter?: string | null;
+  linkedin?: string | null;
+  discord?: string | null;
+  anonymous?: boolean;
 }) {
   if (!ADMIN) return;
 

@@ -1,8 +1,10 @@
 import { clsx } from "clsx";
+import React from "react";
 
-interface TagProps {
+export interface TagProps {
   children: React.ReactNode;
   variant?: "default" | "navy" | "amber" | "success";
+  className?: string; //  <- added
 }
 
 const variants = {
@@ -12,10 +14,11 @@ const variants = {
   success: { bg: "#EAF5EE", color: "#2D6A4F", border: "#B7DFC9" },
 };
 
-export function Tag({ children, variant = "default" }: TagProps) {
+export function Tag({ children, variant = "default", className }: TagProps): React.JSX.Element {
   const v = variants[variant];
   return (
     <span
+      className={clsx(className)}
       style={{
         display: "inline-block",
         padding: "3px 10px",
@@ -32,3 +35,5 @@ export function Tag({ children, variant = "default" }: TagProps) {
     </span>
   );
 }
+
+export default Tag;

@@ -42,8 +42,5 @@ export function formatRelativeDate(dateStr: string): string {
 }
 
 export function sanitizeText(text: string): string {
-  return text
-    .replace(/[<>]/g, '')
-    .trim()
-    .slice(0, 2000);
+  return text.replace(/[<>]/g, '').trim().slice(0, 2000);
 }

@@ -3,15 +3,21 @@ import { useEffect, useState } from "react";
 import { calcPercent, formatNaira } from "@/lib/format";
 
 interface ProgressBarProps {
-  raised: number;
-  goal: number;
+  raised?: number;
+  goal?: number;
+  stats?: {
+    amount_raised?: number;
+    goal_amount?: number;
+  };
   showLabels?: boolean;
-  size?: "sm" | "md";
+  size?: "sm" | "md" | "lg";
 }
 
-export function ProgressBar({ raised, goal, showLabels = true, size = "md" }: ProgressBarProps) {
+export function ProgressBar({ raised, goal, stats, showLabels = true, size = "md" }: ProgressBarProps) {
+  const safeRaised = raised ?? stats?.amount_raised ?? 0;
+  const safeGoal = goal ?? stats?.goal_amount ?? 1;
   const [width, setWidth] = useState(0);
-  const pct = calcPercent(raised, goal);
+  const pct = calcPercent(safeRaised, safeGoal);
 
   useEffect(() => {
     const t = setTimeout(() => setWidth(pct), 100);
@@ -43,9 +49,11 @@ export function ProgressBar({ raised, goal, showLabels = true, size = "md" }: Pr
       {showLabels && (
         <div style={{ display: "flex", justifyContent: "space-between", marginTop: 8, fontSize: 12, color: "#6B6860" }}>
           <span>{pct}% of goal reached</span>
-          <span>Goal: {formatNaira(goal)}</span>
+          <span>Goal: {formatNaira(safeGoal)}</span>
         </div>
       )}
     </div>
   );
 }
+
+export default ProgressBar;
