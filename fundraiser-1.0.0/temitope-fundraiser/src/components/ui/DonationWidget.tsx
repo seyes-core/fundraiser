@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { Heart, Lock, ChevronRight, CheckCircle, XCircle } from 'lucide-react';
-import { DONATION_TIERS, formatNaira } from '@/types';
+import { DONATION_TIERS } from '@/types';
+import { formatNaira } from '@/lib/utils';
 import { cn } from '@/lib/utils';
 
 type Step = 'select' | 'details' | 'processing' | 'success' | 'error';
