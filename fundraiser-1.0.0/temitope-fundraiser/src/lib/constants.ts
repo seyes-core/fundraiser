@@ -4,7 +4,7 @@ export const CAMPAIGN = {
   CURRENCY_SYMBOL: "₦",
   LAPTOP_MODEL: "Dell Latitude 7400",
   BENEFICIARY: "Temitope Ogungbuji",
-  GITHUB: "https://github.com/temitope-ogungbuji",
+  GITHUB: "https://github.com/Bambillion",
   TWITTER: "https://twitter.com/temitope_dev",
   LINKEDIN: "https://linkedin.com/in/temitope-ogungbuji",
   EMAIL: "temitope@example.com",

@@ -43,7 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               description: "Aspiring software developer and data engineering student",
               url: SITE_URL,
               sameAs: [
-                "https://github.com/temitope-ogungbuji",
+                "https://github.com/Bambillion",
                 "https://twitter.com/temitope_dev",
               ],
             }),

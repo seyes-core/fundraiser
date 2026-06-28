@@ -10,7 +10,7 @@ export function Footer() {
           <div style={{ fontSize: 12, color: "#9C9A95", marginBottom: 8 }}>Aspiring Software Developer · Nigeria</div>
           <a href={CAMPAIGN.GITHUB} target="_blank" rel="noopener noreferrer"
             style={{ fontSize: 12, color: "#6B6860", textDecoration: "none", display: "block" }}>
-            🐙 github.com/temitope-ogungbuji
+            🐙 github.com/Bambillion
           </a>
         </div>
 

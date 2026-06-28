@@ -130,7 +130,7 @@ export default function HomePage() {
               </p>
               <a href={CAMPAIGN.GITHUB} target="_blank" rel="noopener noreferrer"
                 style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "10px 18px", borderRadius: 10, border: "1.5px solid #E8E6E1", background: "#F3F2EF", color: "#1A1917", fontWeight: 600, fontSize: 14, textDecoration: "none" }}>
-                🐙 github.com/temitope-ogungbuji
+                🐙 github.com/Bambillion
               </a>
             </div>
           </div>
