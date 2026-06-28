@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
     tx_ref: txRef,
     amount,
     currency: "NGN",
-    payment_options: "card,banktransfer,ussd",
+    payment_options: "card,banktransfer,ussd,apple_pay,googlepay",
     redirect_url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhook/flutterwave`,
     customer: {
       email: email || "anonymous@donor.temi",
