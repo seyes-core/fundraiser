@@ -37,16 +37,9 @@ export function isAdminAuthenticated(req: NextRequest): boolean {
   return token ? verifyAdminToken(token) : false;
 }
 
-export function verifyFlutterwaveWebhook(
-  signature: string,
-  body: string
-): boolean {
-  const hash = createHmac("sha256", process.env.FLUTTERWAVE_SECRET_HASH ?? "")
-    .update(body)
-    .digest("hex");
-  try {
-    return timingSafeEqual(Buffer.from(signature), Buffer.from(hash));
-  } catch {
-    return false;
-  }
+export function verifyFlutterwaveWebhook(signature: string): boolean {
+  const expected = process.env.FLUTTERWAVE_SECRET_HASH ?? "";
+  if (!signature || !expected) return false;
+  if (signature.length !== expected.length) return false;
+  return timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
 }
