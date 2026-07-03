@@ -16,11 +16,7 @@ export const donationSchema = z.object({
 });
 
 export const guestbookSchema = z.object({
-  name: z
-    .string()
-    .min(1, "Name is required")
-    .max(80, "Name too long")
-    .trim(),
+  name: z.string().min(1, "Name is required").max(80, "Name too long").trim(),
   social_handle: z.string().max(100).optional(),
   message: z
     .string()
@@ -40,16 +36,8 @@ export const careerSupportSchema = z.object({
   ]),
   name: z.string().min(1, "Name is required").max(80).trim(),
   email: z.string().email("Invalid email").optional().or(z.literal("")),
-  linkedin_url: z
-    .string()
-    .url("Invalid URL")
-    .optional()
-    .or(z.literal("")),
-  message: z
-    .string()
-    .min(10, "Please add a bit more detail")
-    .max(2000)
-    .trim(),
+  linkedin_url: z.string().url("Invalid URL").optional().or(z.literal("")),
+  message: z.string().min(10, "Please add a bit more detail").max(2000).trim(),
 });
 
 export type DonationInput = z.infer<typeof donationSchema>;

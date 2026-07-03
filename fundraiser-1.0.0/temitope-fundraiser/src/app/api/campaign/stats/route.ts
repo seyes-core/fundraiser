@@ -11,7 +11,11 @@ export async function GET() {
     .single();
 
   if (error || !data) {
-    return NextResponse.json({ goal_amount: 350000, amount_raised: 0, donor_count: 0 });
+    return NextResponse.json({
+      goal_amount: 350000,
+      amount_raised: 0,
+      donor_count: 0,
+    });
   }
   return NextResponse.json(data);
 }

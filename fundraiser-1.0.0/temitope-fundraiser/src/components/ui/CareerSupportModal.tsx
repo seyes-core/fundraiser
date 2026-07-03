@@ -1,34 +1,42 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { X, CheckCircle } from 'lucide-react';
-import type { SubmissionType } from '@/types';
-import { cn } from '@/lib/utils';
+import { useState } from "react";
+import { X, CheckCircle } from "lucide-react";
+import type { SubmissionType } from "@/types";
+import { cn } from "@/lib/utils";
 
-const TYPE_CONFIG: Record<SubmissionType, { label: string; placeholder: string }> = {
+const TYPE_CONFIG: Record<
+  SubmissionType,
+  { label: string; placeholder: string }
+> = {
   internship: {
-    label: 'Internship Opportunity',
-    placeholder: 'Please share details about the opportunity — company, role, how to apply, or any referral information.',
+    label: "Internship Opportunity",
+    placeholder:
+      "Please share details about the opportunity — company, role, how to apply, or any referral information.",
   },
   learning_resource: {
-    label: 'Learning Resource',
-    placeholder: 'Share a course, book, YouTube channel, blog, or any resource that could help with Python, data engineering, or software development.',
+    label: "Learning Resource",
+    placeholder:
+      "Share a course, book, YouTube channel, blog, or any resource that could help with Python, data engineering, or software development.",
   },
   certification: {
-    label: 'Certification Recommendation',
-    placeholder: 'Which certification do you recommend, and why? Any tips for preparation?',
+    label: "Certification Recommendation",
+    placeholder:
+      "Which certification do you recommend, and why? Any tips for preparation?",
   },
   mentorship: {
-    label: 'Mentorship Offer',
-    placeholder: 'Share a bit about your background and how you\'d like to help — code reviews, career advice, industry insights, etc.',
+    label: "Mentorship Offer",
+    placeholder:
+      "Share a bit about your background and how you'd like to help — code reviews, career advice, industry insights, etc.",
   },
   project_idea: {
-    label: 'Project Idea',
-    placeholder: 'Describe your project idea — what problem it solves, what technologies might be involved, and any resources or collaborators.',
+    label: "Project Idea",
+    placeholder:
+      "Describe your project idea — what problem it solves, what technologies might be involved, and any resources or collaborators.",
   },
   networking: {
-    label: 'Connect With Me',
-    placeholder: 'Introduce yourself and share how you\'d like to connect.',
+    label: "Connect With Me",
+    placeholder: "Introduce yourself and share how you'd like to connect.",
   },
 };
 
@@ -38,28 +46,28 @@ interface CareerSupportModalProps {
 }
 
 export function CareerSupportModal({ type, onClose }: CareerSupportModalProps) {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [linkedin, setLinkedin] = useState('');
-  const [message, setMessage] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [linkedin, setLinkedin] = useState("");
+  const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const config = TYPE_CONFIG[type];
 
   async function handleSubmit() {
     if (!name.trim() || !message.trim()) {
-      setError('Name and message are required.');
+      setError("Name and message are required.");
       return;
     }
-    setError('');
+    setError("");
     setSubmitting(true);
 
     try {
-      const res = await fetch('/api/career-support', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/career-support", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           submission_type: type,
           name: name.trim(),
@@ -70,9 +78,9 @@ export function CareerSupportModal({ type, onClose }: CareerSupportModalProps) {
       });
       const data = await res.json();
       if (data.success) setDone(true);
-      else setError(data.error || 'Submission failed. Please try again.');
+      else setError(data.error || "Submission failed. Please try again.");
     } catch {
-      setError('Network error. Please try again.');
+      setError("Network error. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -83,7 +91,10 @@ export function CareerSupportModal({ type, onClose }: CareerSupportModalProps) {
       <div className="bg-white rounded-2xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between p-5 border-b border-rule">
           <h3 className="font-bold text-ink">{config.label}</h3>
-          <button onClick={onClose} className="text-stone-400 hover:text-ink rounded-lg p-1">
+          <button
+            onClick={onClose}
+            className="text-stone-400 hover:text-ink rounded-lg p-1"
+          >
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -93,7 +104,8 @@ export function CareerSupportModal({ type, onClose }: CareerSupportModalProps) {
             <CheckCircle className="w-12 h-12 text-success mx-auto mb-3" />
             <h4 className="font-bold text-ink mb-2">Received! Thank you.</h4>
             <p className="text-sm text-stone-500 mb-5">
-              Your submission means a lot to me. I&apos;ll review it and get back to you if you provided contact details.
+              Your submission means a lot to me. I&apos;ll review it and get
+              back to you if you provided contact details.
             </p>
             <button className="btn-secondary" onClick={onClose}>
               Close
@@ -111,7 +123,7 @@ export function CareerSupportModal({ type, onClose }: CareerSupportModalProps) {
                   className="input-field"
                   placeholder="Full name or alias"
                   value={name}
-                  onChange={e => setName(e.target.value)}
+                  onChange={(e) => setName(e.target.value)}
                 />
               </div>
               <div>
@@ -123,7 +135,7 @@ export function CareerSupportModal({ type, onClose }: CareerSupportModalProps) {
                   className="input-field"
                   placeholder="Optional"
                   value={email}
-                  onChange={e => setEmail(e.target.value)}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
             </div>
@@ -137,7 +149,7 @@ export function CareerSupportModal({ type, onClose }: CareerSupportModalProps) {
                 className="input-field"
                 placeholder="https://linkedin.com/in/yourprofile"
                 value={linkedin}
-                onChange={e => setLinkedin(e.target.value)}
+                onChange={(e) => setLinkedin(e.target.value)}
               />
             </div>
 
@@ -149,7 +161,7 @@ export function CareerSupportModal({ type, onClose }: CareerSupportModalProps) {
                 className="textarea-field min-h-[120px]"
                 placeholder={config.placeholder}
                 value={message}
-                onChange={e => setMessage(e.target.value)}
+                onChange={(e) => setMessage(e.target.value)}
               />
             </div>
 
@@ -160,7 +172,7 @@ export function CareerSupportModal({ type, onClose }: CareerSupportModalProps) {
               onClick={handleSubmit}
               disabled={submitting}
             >
-              {submitting ? 'Submitting...' : 'Submit'}
+              {submitting ? "Submitting..." : "Submit"}
             </button>
           </div>
         )}

@@ -17,13 +17,34 @@ export function StatCard({ label, value, sub, accent }: StatCardProps) {
         minWidth: 140,
       }}
     >
-      <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.09em", textTransform: "uppercase", color: "#9C9A95", marginBottom: 6 }}>
+      <div
+        style={{
+          fontSize: 11,
+          fontWeight: 700,
+          letterSpacing: "0.09em",
+          textTransform: "uppercase",
+          color: "#9C9A95",
+          marginBottom: 6,
+        }}
+      >
         {label}
       </div>
-      <div style={{ fontSize: 26, fontWeight: 700, color: accent ? "#1B3A5C" : "#1A1917", fontFamily: "'Lora', Georgia, serif", lineHeight: 1.1 }}>
+      <div
+        style={{
+          fontSize: 26,
+          fontWeight: 700,
+          color: accent ? "#1B3A5C" : "#1A1917",
+          fontFamily: "'Lora', Georgia, serif",
+          lineHeight: 1.1,
+        }}
+      >
         {value}
       </div>
-      {sub && <div style={{ fontSize: 12, color: "#9C9A95", marginTop: 4 }}>{sub}</div>}
+      {sub && (
+        <div style={{ fontSize: 12, color: "#9C9A95", marginTop: 4 }}>
+          {sub}
+        </div>
+      )}
     </div>
   );
 }

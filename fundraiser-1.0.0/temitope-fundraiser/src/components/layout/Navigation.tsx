@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { Menu, X, Heart } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Menu, X, Heart } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
-  { href: '/', label: 'Home' },
-  { href: '/about', label: 'About' },
-  { href: '/campaign', label: 'Campaign' },
-  { href: '/guestbook', label: 'Guestbook' },
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/campaign", label: "Campaign" },
+  { href: "/guestbook", label: "Guestbook" },
 ];
 
 export default function Navigation() {
@@ -19,7 +19,10 @@ export default function Navigation() {
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-rule">
-      <nav className="container-site flex items-center justify-between h-16" aria-label="Main navigation">
+      <nav
+        className="container-site flex items-center justify-between h-16"
+        aria-label="Main navigation"
+      >
         <Link
           href="/"
           className="font-semibold text-base text-ink hover:text-lead transition-colors"
@@ -35,8 +38,10 @@ export default function Navigation() {
               key={href}
               href={href}
               className={cn(
-                'text-sm font-medium transition-colors',
-                pathname === href ? 'text-ink' : 'text-stone-500 hover:text-ink'
+                "text-sm font-medium transition-colors",
+                pathname === href
+                  ? "text-ink"
+                  : "text-stone-500 hover:text-ink",
               )}
             >
               {label}
@@ -55,7 +60,7 @@ export default function Navigation() {
         <button
           className="md:hidden p-2 -mr-2 rounded-lg text-stone-500 hover:text-ink"
           onClick={() => setOpen(!open)}
-          aria-label={open ? 'Close menu' : 'Open menu'}
+          aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
         >
           {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -71,10 +76,10 @@ export default function Navigation() {
                 key={href}
                 href={href}
                 className={cn(
-                  'px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
+                  "px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
                   pathname === href
-                    ? 'bg-mist text-ink'
-                    : 'text-stone-600 hover:bg-mist hover:text-ink'
+                    ? "bg-mist text-ink"
+                    : "text-stone-600 hover:bg-mist hover:text-ink",
                 )}
                 onClick={() => setOpen(false)}
               >

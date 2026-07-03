@@ -9,17 +9,28 @@ export async function POST(req: NextRequest) {
   const ip = req.headers.get("x-forwarded-for") ?? "unknown";
   const { allowed } = rateLimit(`donate:${ip}`, 5, 60_000);
   if (!allowed) {
-    return NextResponse.json({ error: "Too many requests. Please wait a moment." }, { status: 429 });
+    return NextResponse.json(
+      { error: "Too many requests. Please wait a moment." },
+      { status: 429 },
+    );
   }
 
   let body: unknown;
-  try { body = await req.json(); } catch {
-    return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json(
+      { error: "Invalid request body" },
+      { status: 400 },
+    );
   }
 
   const parsed = donationSchema.safeParse(body);
   if (!parsed.success) {
-    return NextResponse.json({ error: parsed.error.errors[0].message }, { status: 400 });
+    return NextResponse.json(
+      { error: parsed.error.errors[0].message },
+      { status: 400 },
+    );
   }
 
   const { amount, email, twitter, linkedin, discord } = parsed.data;
@@ -40,7 +51,10 @@ export async function POST(req: NextRequest) {
 
   if (dbError) {
     console.error("DB error:", dbError);
-    return NextResponse.json({ error: "Failed to record donation. Please try again." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to record donation. Please try again." },
+      { status: 500 },
+    );
   }
 
   // Build Flutterwave payment link
@@ -49,7 +63,7 @@ export async function POST(req: NextRequest) {
     amount,
     currency: "NGN",
     payment_options: "card,banktransfer,ussd,apple_pay,googlepay",
-    redirect_url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/webhook/flutterwave`,
+    redirect_url: `${process.env.NEXT_PUBLIC_SITE_URL}/donate/success`,
     customer: {
       email: email || "anonymous@donor.temi",
       name: "Donor",
@@ -75,9 +89,15 @@ export async function POST(req: NextRequest) {
     if (flwJson.status !== "success") {
       throw new Error(flwJson.message ?? "Flutterwave error");
     }
-    return NextResponse.json({ payment_link: flwJson.data.link, tx_ref: txRef });
+    return NextResponse.json({
+      payment_link: flwJson.data.link,
+      tx_ref: txRef,
+    });
   } catch (err) {
     console.error("Flutterwave error:", err);
-    return NextResponse.json({ error: "Payment gateway error. Please try again." }, { status: 502 });
+    return NextResponse.json(
+      { error: "Payment gateway error. Please try again." },
+      { status: 502 },
+    );
   }
 }

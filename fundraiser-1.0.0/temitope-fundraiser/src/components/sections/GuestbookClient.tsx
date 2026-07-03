@@ -1,34 +1,34 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { CheckCircle } from 'lucide-react';
+import { useState } from "react";
+import { CheckCircle } from "lucide-react";
 
 export default function GuestbookClient() {
-  const [name, setName] = useState('');
-  const [handle, setHandle] = useState('');
-  const [message, setMessage] = useState('');
+  const [name, setName] = useState("");
+  const [handle, setHandle] = useState("");
+  const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!name.trim() || !message.trim()) {
-      setError('Name and message are required.');
+      setError("Name and message are required.");
       return;
     }
     if (message.trim().length < 5) {
-      setError('Message must be at least 5 characters.');
+      setError("Message must be at least 5 characters.");
       return;
     }
 
-    setError('');
+    setError("");
     setSubmitting(true);
 
     try {
-      const res = await fetch('/api/guestbook', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/guestbook", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: name.trim(),
           social_handle: handle.trim() || undefined,
@@ -39,10 +39,10 @@ export default function GuestbookClient() {
       if (data.success) {
         setDone(true);
       } else {
-        setError(data.error || 'Failed to submit. Please try again.');
+        setError(data.error || "Failed to submit. Please try again.");
       }
     } catch {
-      setError('Network error. Please try again.');
+      setError("Network error. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -58,7 +58,12 @@ export default function GuestbookClient() {
         </p>
         <button
           className="btn-secondary mt-4 text-sm"
-          onClick={() => { setDone(false); setName(''); setHandle(''); setMessage(''); }}
+          onClick={() => {
+            setDone(false);
+            setName("");
+            setHandle("");
+            setMessage("");
+          }}
         >
           Leave another message
         </button>
@@ -75,7 +80,10 @@ export default function GuestbookClient() {
 
       <form onSubmit={handleSubmit} className="space-y-4" noValidate>
         <div>
-          <label htmlFor="name" className="text-xs font-semibold text-stone-600 mb-1.5 block">
+          <label
+            htmlFor="name"
+            className="text-xs font-semibold text-stone-600 mb-1.5 block"
+          >
             Your name <span className="text-red-400">*</span>
           </label>
           <input
@@ -84,15 +92,19 @@ export default function GuestbookClient() {
             className="input-field"
             placeholder="Name or alias"
             value={name}
-            onChange={e => setName(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
             maxLength={100}
             required
           />
         </div>
 
         <div>
-          <label htmlFor="handle" className="text-xs font-semibold text-stone-600 mb-1.5 block">
-            Social handle <span className="text-stone-400 font-normal">(optional)</span>
+          <label
+            htmlFor="handle"
+            className="text-xs font-semibold text-stone-600 mb-1.5 block"
+          >
+            Social handle{" "}
+            <span className="text-stone-400 font-normal">(optional)</span>
           </label>
           <input
             id="handle"
@@ -100,13 +112,16 @@ export default function GuestbookClient() {
             className="input-field"
             placeholder="@yourhandle or Discord"
             value={handle}
-            onChange={e => setHandle(e.target.value)}
+            onChange={(e) => setHandle(e.target.value)}
             maxLength={100}
           />
         </div>
 
         <div>
-          <label htmlFor="message" className="text-xs font-semibold text-stone-600 mb-1.5 block">
+          <label
+            htmlFor="message"
+            className="text-xs font-semibold text-stone-600 mb-1.5 block"
+          >
             Message <span className="text-red-400">*</span>
           </label>
           <textarea
@@ -114,11 +129,13 @@ export default function GuestbookClient() {
             className="textarea-field min-h-[120px]"
             placeholder="Encouragement, advice, internship leads, resources — anything helpful."
             value={message}
-            onChange={e => setMessage(e.target.value)}
+            onChange={(e) => setMessage(e.target.value)}
             maxLength={1000}
             required
           />
-          <p className="text-xs text-stone-400 mt-1 text-right">{message.length}/1000</p>
+          <p className="text-xs text-stone-400 mt-1 text-right">
+            {message.length}/1000
+          </p>
         </div>
 
         {error && <p className="text-red-500 text-xs">{error}</p>}
@@ -128,7 +145,7 @@ export default function GuestbookClient() {
           className="btn-primary w-full"
           disabled={submitting}
         >
-          {submitting ? 'Submitting...' : 'Sign Guestbook'}
+          {submitting ? "Submitting..." : "Sign Guestbook"}
         </button>
       </form>
     </div>

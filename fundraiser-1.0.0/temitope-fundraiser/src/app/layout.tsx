@@ -7,7 +7,14 @@ export const metadata: Metadata = {
   title: "Help Temitope Get a Laptop — ₦350,000 Campaign",
   description:
     "Temitope Ogungbuji is an aspiring software developer raising ₦350,000 to purchase a Dell Latitude 7400 laptop. Support his journey into data engineering and technology.",
-  keywords: ["fundraising", "laptop", "developer", "Nigeria", "technology", "data engineering"],
+  keywords: [
+    "fundraising",
+    "laptop",
+    "developer",
+    "Nigeria",
+    "technology",
+    "data engineering",
+  ],
   authors: [{ name: "Temitope Ogungbuji" }],
   metadataBase: new URL(SITE_URL),
   openGraph: {
@@ -28,7 +35,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <head>
@@ -40,7 +51,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               "@context": "https://schema.org",
               "@type": "Person",
               name: "Temitope Ogungbuji",
-              description: "Aspiring software developer and data engineering student",
+              description:
+                "Aspiring software developer and data engineering student",
               url: SITE_URL,
               sameAs: [
                 "https://github.com/Bambillion",

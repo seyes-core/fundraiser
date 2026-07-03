@@ -30,11 +30,13 @@ A complete, production-ready fundraising website built with Next.js 14, TypeScri
 This is a personal fundraising campaign website for **Temitope Ogungbuji**, an aspiring software developer raising ₦350,000 to purchase a Dell Latitude 7400 laptop.
 
 ### Campaign Goal
+
 - **Target:** ₦350,000
 - **Purpose:** Dell Latitude 7400 (Intel i5-8365U, 8GB RAM, 256GB SSD)
 - **Beneficiary:** Temitope Ogungbuji — aspiring data engineer and software developer
 
 ### Features
+
 - Live campaign progress tracker
 - Secure Flutterwave payment integration (one-time donations)
 - Guestbook with moderation
@@ -49,17 +51,17 @@ This is a personal fundraising campaign website for **Temitope Ogungbuji**, an a
 
 ## Tech Stack
 
-| Layer       | Technology                        |
-|-------------|-----------------------------------|
-| Framework   | Next.js 14 (App Router)           |
-| Language    | TypeScript                        |
-| Styling     | Tailwind CSS + inline styles      |
-| Database    | Supabase (PostgreSQL)             |
-| Payments    | Flutterwave                       |
-| Email       | Resend                            |
-| Hosting     | Vercel (recommended)              |
-| Validation  | Zod                               |
-| Forms       | React Hook Form                   |
+| Layer      | Technology                   |
+| ---------- | ---------------------------- |
+| Framework  | Next.js 14 (App Router)      |
+| Language   | TypeScript                   |
+| Styling    | Tailwind CSS + inline styles |
+| Database   | Supabase (PostgreSQL)        |
+| Payments   | Flutterwave                  |
+| Email      | Resend                       |
+| Hosting    | Vercel (recommended)         |
+| Validation | Zod                          |
+| Forms      | React Hook Form              |
 
 ---
 
@@ -275,6 +277,7 @@ NEXT_PUBLIC_SITE_URL=https://your-deployed-domain.com
 ```
 
 Generate `ADMIN_JWT_SECRET` with:
+
 ```bash
 node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
 ```
@@ -298,6 +301,7 @@ Admin dashboard: [http://localhost:3000/admin](http://localhost:3000/admin)
 ## Pages & Features
 
 ### Home Page (`/`)
+
 - Hero with personal introduction and campaign objective
 - Live campaign progress (goal, raised, donors, percentage)
 - Dell Latitude 7400 spec card
@@ -309,6 +313,7 @@ Admin dashboard: [http://localhost:3000/admin](http://localhost:3000/admin)
 - Final donation CTA
 
 ### About (`/about`)
+
 - Full biography
 - Current skills + currently learning (tag grids)
 - Learning roadmap (4-phase timeline)
@@ -316,6 +321,7 @@ Admin dashboard: [http://localhost:3000/admin](http://localhost:3000/admin)
 - GitHub + donate CTAs
 
 ### Transparency (`/transparency`)
+
 - Live campaign stats (goal, raised, donors)
 - Animated progress bar
 - Full Dell Latitude 7400 spec table
@@ -324,12 +330,14 @@ Admin dashboard: [http://localhost:3000/admin](http://localhost:3000/admin)
 - Campaign timeline (populated from admin dashboard)
 
 ### Guestbook (`/guestbook`)
+
 - Public message submission form
 - Displays all approved messages (name, optional handle, date)
 - Submissions pending admin review before appearing
 - Empty state with clear CTA
 
 ### Admin Dashboard (`/admin`)
+
 - Password-protected login
 - Campaign stats editor (update raised amount and donor count)
 - Guestbook moderation (approve / hide / delete)
@@ -346,14 +354,14 @@ Access at `/admin` with your `ADMIN_PASSWORD`.
 
 ### What you can do
 
-| Action | Where |
-|--------|-------|
-| Update campaign totals after manual bank transfers | Overview tab → Edit Stats |
-| Approve guestbook messages | Guestbook tab |
-| Post campaign milestones (laptop arrived, etc.) | Updates tab |
-| Review internship referrals, mentorship offers | Submissions tab |
-| View all donation records | Donations tab |
-| Export donor CSV | Donations tab → Export CSV |
+| Action                                             | Where                      |
+| -------------------------------------------------- | -------------------------- |
+| Update campaign totals after manual bank transfers | Overview tab → Edit Stats  |
+| Approve guestbook messages                         | Guestbook tab              |
+| Post campaign milestones (laptop arrived, etc.)    | Updates tab                |
+| Review internship referrals, mentorship offers     | Submissions tab            |
+| View all donation records                          | Donations tab              |
+| Export donor CSV                                   | Donations tab → Export CSV |
 
 ### Admin session
 
@@ -367,32 +375,32 @@ All API routes return JSON. Error responses follow `{ "error": "message" }`.
 
 ### Public endpoints
 
-| Method | Path | Description |
-|--------|------|-------------|
-| `GET` | `/api/campaign/stats` | Current campaign totals |
-| `GET` | `/api/campaign/updates` | Campaign timeline entries |
-| `GET` | `/api/guestbook` | Approved guestbook messages |
-| `POST` | `/api/guestbook` | Submit a new message |
-| `POST` | `/api/donate` | Initiate Flutterwave payment |
-| `POST` | `/api/career-support` | Submit a career support form |
-| `POST` | `/api/webhook` | Flutterwave webhook (verified by hash) |
+| Method | Path                    | Description                            |
+| ------ | ----------------------- | -------------------------------------- |
+| `GET`  | `/api/campaign/stats`   | Current campaign totals                |
+| `GET`  | `/api/campaign/updates` | Campaign timeline entries              |
+| `GET`  | `/api/guestbook`        | Approved guestbook messages            |
+| `POST` | `/api/guestbook`        | Submit a new message                   |
+| `POST` | `/api/donate`           | Initiate Flutterwave payment           |
+| `POST` | `/api/career-support`   | Submit a career support form           |
+| `POST` | `/api/webhook`          | Flutterwave webhook (verified by hash) |
 
 ### Admin endpoints (require `admin_token` cookie)
 
-| Method | Path | Description |
-|--------|------|-------------|
-| `POST` | `/api/admin/login` | Authenticate and set session cookie |
-| `GET` | `/api/admin/stats` | Get full campaign stats |
-| `PATCH` | `/api/admin/stats` | Update raised amount / donor count |
-| `GET` | `/api/admin/guestbook` | All messages (approved + pending) |
-| `PATCH` | `/api/admin/guestbook` | Approve or hide a message |
-| `DELETE` | `/api/admin/guestbook` | Delete a message |
-| `GET` | `/api/admin/updates` | All timeline updates |
-| `POST` | `/api/admin/updates` | Post a new update |
-| `GET` | `/api/admin/submissions` | All career submissions |
-| `PATCH` | `/api/admin/submissions` | Update submission status |
-| `GET` | `/api/admin/donations` | All donation records |
-| `GET` | `/api/admin/export` | Download donations CSV |
+| Method   | Path                     | Description                         |
+| -------- | ------------------------ | ----------------------------------- |
+| `POST`   | `/api/admin/login`       | Authenticate and set session cookie |
+| `GET`    | `/api/admin/stats`       | Get full campaign stats             |
+| `PATCH`  | `/api/admin/stats`       | Update raised amount / donor count  |
+| `GET`    | `/api/admin/guestbook`   | All messages (approved + pending)   |
+| `PATCH`  | `/api/admin/guestbook`   | Approve or hide a message           |
+| `DELETE` | `/api/admin/guestbook`   | Delete a message                    |
+| `GET`    | `/api/admin/updates`     | All timeline updates                |
+| `POST`   | `/api/admin/updates`     | Post a new update                   |
+| `GET`    | `/api/admin/submissions` | All career submissions              |
+| `PATCH`  | `/api/admin/submissions` | Update submission status            |
+| `GET`    | `/api/admin/donations`   | All donation records                |
+| `GET`    | `/api/admin/export`      | Download donations CSV              |
 
 ---
 
@@ -497,59 +505,64 @@ Run through this after your first deployment:
 ## Database Schema
 
 ### `campaign_stats`
-| Column | Type | Notes |
-|--------|------|-------|
-| id | UUID | Primary key |
-| goal_amount | INTEGER | Campaign target in kobo/naira |
-| amount_raised | INTEGER | Total raised (updated by webhook) |
-| donor_count | INTEGER | Total donors |
-| updated_at | TIMESTAMPTZ | Auto-updated |
+
+| Column        | Type        | Notes                             |
+| ------------- | ----------- | --------------------------------- |
+| id            | UUID        | Primary key                       |
+| goal_amount   | INTEGER     | Campaign target in kobo/naira     |
+| amount_raised | INTEGER     | Total raised (updated by webhook) |
+| donor_count   | INTEGER     | Total donors                      |
+| updated_at    | TIMESTAMPTZ | Auto-updated                      |
 
 ### `donations`
-| Column | Type | Notes |
-|--------|------|-------|
-| id | UUID | Primary key |
-| amount | INTEGER | Donation amount in NGN |
-| donor_email | TEXT | Private, nullable |
-| twitter_profile | TEXT | Private, nullable |
-| linkedin_profile | TEXT | Private, nullable |
-| discord_username | TEXT | Private, nullable |
-| anonymous | BOOLEAN | True if no email provided |
-| transaction_reference | TEXT | Unique Flutterwave TX ref |
-| flw_transaction_id | TEXT | Flutterwave internal ID |
-| status | TEXT | pending / successful / failed |
-| created_at | TIMESTAMPTZ | Auto-set |
+
+| Column                | Type        | Notes                         |
+| --------------------- | ----------- | ----------------------------- |
+| id                    | UUID        | Primary key                   |
+| amount                | INTEGER     | Donation amount in NGN        |
+| donor_email           | TEXT        | Private, nullable             |
+| twitter_profile       | TEXT        | Private, nullable             |
+| linkedin_profile      | TEXT        | Private, nullable             |
+| discord_username      | TEXT        | Private, nullable             |
+| anonymous             | BOOLEAN     | True if no email provided     |
+| transaction_reference | TEXT        | Unique Flutterwave TX ref     |
+| flw_transaction_id    | TEXT        | Flutterwave internal ID       |
+| status                | TEXT        | pending / successful / failed |
+| created_at            | TIMESTAMPTZ | Auto-set                      |
 
 ### `guestbook_entries`
-| Column | Type | Notes |
-|--------|------|-------|
-| id | UUID | Primary key |
-| name | TEXT | Publicly visible |
-| social_handle | TEXT | Optional, publicly visible |
-| message | TEXT | Publicly visible after approval |
-| approved | BOOLEAN | Default false — requires admin |
-| created_at | TIMESTAMPTZ | Auto-set |
+
+| Column        | Type        | Notes                           |
+| ------------- | ----------- | ------------------------------- |
+| id            | UUID        | Primary key                     |
+| name          | TEXT        | Publicly visible                |
+| social_handle | TEXT        | Optional, publicly visible      |
+| message       | TEXT        | Publicly visible after approval |
+| approved      | BOOLEAN     | Default false — requires admin  |
+| created_at    | TIMESTAMPTZ | Auto-set                        |
 
 ### `campaign_updates`
-| Column | Type | Notes |
-|--------|------|-------|
-| id | UUID | Primary key |
-| title | TEXT | Update headline |
-| content | TEXT | Update body |
-| image_url | TEXT | Optional image |
-| created_at | TIMESTAMPTZ | Auto-set |
+
+| Column     | Type        | Notes           |
+| ---------- | ----------- | --------------- |
+| id         | UUID        | Primary key     |
+| title      | TEXT        | Update headline |
+| content    | TEXT        | Update body     |
+| image_url  | TEXT        | Optional image  |
+| created_at | TIMESTAMPTZ | Auto-set        |
 
 ### `career_support_submissions`
-| Column | Type | Notes |
-|--------|------|-------|
-| id | UUID | Primary key |
-| submission_type | TEXT | internship / learning_resource / certification / mentorship / project_idea / networking |
-| name | TEXT | Submitter name |
-| email | TEXT | Private, nullable |
-| linkedin_url | TEXT | Private, nullable |
-| message | TEXT | Submission content |
-| status | TEXT | new / reviewed / actioned |
-| created_at | TIMESTAMPTZ | Auto-set |
+
+| Column          | Type        | Notes                                                                                   |
+| --------------- | ----------- | --------------------------------------------------------------------------------------- |
+| id              | UUID        | Primary key                                                                             |
+| submission_type | TEXT        | internship / learning_resource / certification / mentorship / project_idea / networking |
+| name            | TEXT        | Submitter name                                                                          |
+| email           | TEXT        | Private, nullable                                                                       |
+| linkedin_url    | TEXT        | Private, nullable                                                                       |
+| message         | TEXT        | Submission content                                                                      |
+| status          | TEXT        | new / reviewed / actioned                                                               |
+| created_at      | TIMESTAMPTZ | Auto-set                                                                                |
 
 ---
 
@@ -578,4 +591,4 @@ If you encounter issues setting up the project:
 
 ---
 
-*Built with care for Temitope Ogungbuji's journey into software development.*
+_Built with care for Temitope Ogungbuji's journey into software development._

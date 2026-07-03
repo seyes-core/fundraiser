@@ -7,10 +7,12 @@ const ADMIN = process.env.ADMIN_EMAIL ?? "";
 export async function sendDonorThankYou(
   to: string,
   amount: number,
-  txRef: string
+  txRef: string,
 ) {
   const formatted = new Intl.NumberFormat("en-NG", {
-    style: "currency", currency: "NGN", maximumFractionDigits: 0,
+    style: "currency",
+    currency: "NGN",
+    maximumFractionDigits: 0,
   }).format(amount);
 
   await resend.emails.send({
@@ -50,16 +52,16 @@ export async function sendAdminDonationNotification(
     linkedin?: string | null;
     discord?: string | null;
     anonymous?: boolean;
-  }
+  },
 ) {
-  return notifyAdmin({ 
-    amount, 
+  return notifyAdmin({
+    amount,
     txRef,
     email: data.email ?? undefined,
     twitter: data.twitter ?? undefined,
     linkedin: data.linkedin ?? undefined,
     discord: data.discord ?? undefined,
-   });
+  });
 }
 
 export async function notifyAdmin(data: {
@@ -74,7 +76,9 @@ export async function notifyAdmin(data: {
   if (!ADMIN) return;
 
   const fmt = new Intl.NumberFormat("en-NG", {
-    style: "currency", currency: "NGN", maximumFractionDigits: 0,
+    style: "currency",
+    currency: "NGN",
+    maximumFractionDigits: 0,
   }).format(data.amount);
 
   await resend.emails.send({

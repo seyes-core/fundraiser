@@ -1,20 +1,53 @@
-@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-  body { background-color: #FAFAF8; color: #1A1917; font-family: 'Inter', system-ui, sans-serif; line-height: 1.6; margin: 0; }
-  h1, h2, h3, h4 { font-family: 'Lora', Georgia, serif; line-height: 1.2; letter-spacing: -0.02em; }
-  ::selection { background-color: #C8D8E8; color: #1B3A5C; }
-  :focus-visible { outline: 2px solid #1B3A5C; outline-offset: 3px; border-radius: 4px; }
+  * {
+    box-sizing: border-box;
+  }
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    background-color: #fafaf8;
+    color: #1a1917;
+    font-family: "Inter", system-ui, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: "Lora", Georgia, serif;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+  ::selection {
+    background-color: #c8d8e8;
+    color: #1b3a5c;
+  }
+  :focus-visible {
+    outline: 2px solid #1b3a5c;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
 }
 
-.progress-fill { transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
+.progress-fill {
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

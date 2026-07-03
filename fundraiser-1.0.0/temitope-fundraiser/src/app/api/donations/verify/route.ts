@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { z } from 'zod';
-import { createAdminClient } from '@/lib/supabase';
-import { sendDonorThankYou, sendAdminDonationNotification } from '@/lib/email';
+import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+import { createAdminClient } from "@/lib/supabase";
+import { sendDonorThankYou, sendAdminDonationNotification } from "@/lib/email";
 
 const schema = z.object({
   transaction_id: z.string(),
@@ -14,18 +14,27 @@ export async function POST(request: NextRequest) {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ success: false, error: 'Invalid JSON' }, { status: 400 });
+    return NextResponse.json(
+      { success: false, error: "Invalid JSON" },
+      { status: 400 },
+    );
   }
 
   const parsed = schema.safeParse(body);
   if (!parsed.success) {
-    return NextResponse.json({ success: false, error: 'Invalid request' }, { status: 400 });
+    return NextResponse.json(
+      { success: false, error: "Invalid request" },
+      { status: 400 },
+    );
   }
 
   const { transaction_id, tx_ref, status } = parsed.data;
 
-  if (status !== 'successful') {
-    return NextResponse.json({ success: false, error: 'Payment was not successful' }, { status: 400 });
+  if (status !== "successful") {
+    return NextResponse.json(
+      { success: false, error: "Payment was not successful" },
+      { status: 400 },
+    );
   }
 
   // Verify with Flutterwave API
@@ -34,77 +43,94 @@ export async function POST(request: NextRequest) {
     {
       headers: {
         Authorization: `Bearer ${process.env.FLUTTERWAVE_SECRET_KEY}`,
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-    }
+    },
   );
 
   if (!flwRes.ok) {
-    return NextResponse.json({ success: false, error: 'Payment verification failed' }, { status: 400 });
+    return NextResponse.json(
+      { success: false, error: "Payment verification failed" },
+      { status: 400 },
+    );
   }
 
   const flwData = await flwRes.json();
   const txData = flwData.data;
 
   if (
-    txData.status !== 'successful' ||
+    txData.status !== "successful" ||
     txData.tx_ref !== tx_ref ||
-    txData.currency !== 'NGN'
+    txData.currency !== "NGN"
   ) {
-    return NextResponse.json({ success: false, error: 'Payment verification mismatch' }, { status: 400 });
+    return NextResponse.json(
+      { success: false, error: "Payment verification mismatch" },
+      { status: 400 },
+    );
   }
 
   const supabaseAdmin = createAdminClient();
 
   // Get the donation record
   const { data: donation, error: fetchError } = await supabaseAdmin
-    .from('donations')
-    .select('*')
-    .eq('transaction_reference', tx_ref)
+    .from("donations")
+    .select("*")
+    .eq("transaction_reference", tx_ref)
     .single();
 
   if (fetchError || !donation) {
-    return NextResponse.json({ success: false, error: 'Donation not found' }, { status: 404 });
+    return NextResponse.json(
+      { success: false, error: "Donation not found" },
+      { status: 404 },
+    );
   }
 
-  if (donation.status === 'successful') {
-    return NextResponse.json({ success: true, data: { already_processed: true } });
+  if (donation.status === "successful") {
+    return NextResponse.json({
+      success: true,
+      data: { already_processed: true },
+    });
   }
 
   // Update donation status
   const { error: updateError } = await supabaseAdmin
-    .from('donations')
+    .from("donations")
     .update({
-      status: 'successful',
+      status: "successful",
       flw_transaction_id: transaction_id,
       amount: txData.amount,
     })
-    .eq('transaction_reference', tx_ref);
+    .eq("transaction_reference", tx_ref);
 
   if (updateError) {
-    return NextResponse.json({ success: false, error: 'Failed to update donation' }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: "Failed to update donation" },
+      { status: 500 },
+    );
   }
 
   // Update campaign stats
   const { data: stats } = await supabaseAdmin
-    .from('campaign_stats')
-    .select('*')
+    .from("campaign_stats")
+    .select("*")
     .single();
 
   if (stats) {
     await supabaseAdmin
-      .from('campaign_stats')
+      .from("campaign_stats")
       .update({
         amount_raised: Number(stats.amount_raised) + Number(txData.amount),
         donor_count: stats.donor_count + 1,
         updated_at: new Date().toISOString(),
       })
-      .eq('id', stats.id);
+      .eq("id", stats.id);
   }
 
   // Send emails (non-blocking)
   if (donation.donor_email) {
-    sendDonorThankYou(donation.donor_email, txData.amount, tx_ref).catch(console.error);
+    sendDonorThankYou(donation.donor_email, txData.amount, tx_ref).catch(
+      console.error,
+    );
   }
   sendAdminDonationNotification(txData.amount, tx_ref, {
     email: donation.donor_email,

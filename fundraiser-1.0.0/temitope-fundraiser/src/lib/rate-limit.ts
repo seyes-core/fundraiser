@@ -4,7 +4,7 @@ const store = new Map<string, { count: number; resetAt: number }>();
 export function rateLimit(
   key: string,
   limit = 5,
-  windowMs = 60_000
+  windowMs = 60_000,
 ): { allowed: boolean; remaining: number } {
   const now = Date.now();
   const entry = store.get(key);

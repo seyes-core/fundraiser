@@ -19,7 +19,10 @@ export function verifyAdminToken(token: string): boolean {
     if (prefix !== "admin") return false;
     // Token valid for 8 hours
     if (Date.now() - parseInt(ts) > 8 * 60 * 60 * 1000) return false;
-    const expected = createHmac("sha256", process.env.ADMIN_JWT_SECRET ?? "dev-secret")
+    const expected = createHmac(
+      "sha256",
+      process.env.ADMIN_JWT_SECRET ?? "dev-secret",
+    )
       .update(`${prefix}:${ts}`)
       .digest("hex");
     return timingSafeEqual(Buffer.from(sig), Buffer.from(expected));

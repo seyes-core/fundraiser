@@ -13,7 +13,13 @@ interface ProgressBarProps {
   size?: "sm" | "md" | "lg";
 }
 
-export function ProgressBar({ raised, goal, stats, showLabels = true, size = "md" }: ProgressBarProps) {
+export function ProgressBar({
+  raised,
+  goal,
+  stats,
+  showLabels = true,
+  size = "md",
+}: ProgressBarProps) {
   const safeRaised = raised ?? stats?.amount_raised ?? 0;
   const safeGoal = goal ?? stats?.goal_amount ?? 1;
   const [width, setWidth] = useState(0);
@@ -29,7 +35,12 @@ export function ProgressBar({ raised, goal, stats, showLabels = true, size = "md
   return (
     <div className="w-full">
       <div
-        style={{ height: h, background: "#E8E6E1", borderRadius: 99, overflow: "hidden" }}
+        style={{
+          height: h,
+          background: "#E8E6E1",
+          borderRadius: 99,
+          overflow: "hidden",
+        }}
         role="progressbar"
         aria-valuenow={pct}
         aria-valuemin={0}
@@ -47,7 +58,15 @@ export function ProgressBar({ raised, goal, stats, showLabels = true, size = "md
         />
       </div>
       {showLabels && (
-        <div style={{ display: "flex", justifyContent: "space-between", marginTop: 8, fontSize: 12, color: "#6B6860" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: 8,
+            fontSize: 12,
+            color: "#6B6860",
+          }}
+        >
           <span>{pct}% of goal reached</span>
           <span>Goal: {formatNaira(safeGoal)}</span>
         </div>
