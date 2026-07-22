@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { SupportType } from "@/types";
+import { ModalShell } from "@/components/ui/ModalShell";
 
 const CONFIGS: Record<
   SupportType,
@@ -113,235 +114,90 @@ export function CareerModal({ type, onClose }: CareerModalProps) {
     }
   };
 
-  const overlay: React.CSSProperties = {
-    position: "fixed",
-    inset: 0,
-    background: "rgba(10,10,10,0.55)",
-    zIndex: 1000,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 16,
-  };
-  const modal: React.CSSProperties = {
-    background: "#FFFFFF",
-    borderRadius: 20,
-    padding: "36px 28px",
-    maxWidth: 460,
-    width: "100%",
-    maxHeight: "90vh",
-    overflowY: "auto",
-    boxShadow: "0 24px 64px rgba(0,0,0,0.18)",
-    position: "relative",
-  };
-  const inputStyle: React.CSSProperties = {
-    width: "100%",
-    padding: "11px 14px",
-    border: "1.5px solid #E8E6E1",
-    borderRadius: 10,
-    fontSize: 14,
-    color: "#1A1917",
-    background: "#FAFAF8",
-    outline: "none",
-    boxSizing: "border-box",
-    marginBottom: 14,
-    fontFamily: "Inter, sans-serif",
-  };
-
   return (
-    <div
-      style={overlay}
-      onClick={(e) => e.target === e.currentTarget && onClose()}
-    >
-      <div style={modal} role="dialog" aria-modal="true">
-        <button
-          onClick={onClose}
-          style={{
-            position: "absolute",
-            top: 16,
-            right: 16,
-            background: "#F3F2EF",
-            border: "none",
-            borderRadius: 99,
-            width: 32,
-            height: 32,
-            cursor: "pointer",
-            fontSize: 16,
-            color: "#6B6860",
-          }}
-          aria-label="Close"
-        >
-          ✕
-        </button>
-
-        {!sent ? (
-          <>
-            <div
-              style={{
-                fontSize: 20,
-                fontWeight: 700,
-                fontFamily: "'Lora', Georgia, serif",
-                color: "#1A1917",
-                marginBottom: 6,
-              }}
-            >
-              {cfg.title}
-            </div>
-            <div
-              style={{
-                fontSize: 13,
-                color: "#6B6860",
-                marginBottom: 22,
-                lineHeight: 1.7,
-              }}
-            >
-              {cfg.sub}
-            </div>
-            <label
-              style={{
-                fontSize: 12,
-                fontWeight: 700,
-                color: "#6B6860",
-                display: "block",
-                marginBottom: 5,
-              }}
-            >
-              Your name *
-            </label>
-            <input
-              style={inputStyle}
-              placeholder="Name or alias"
-              value={fields.name}
-              onChange={(e) =>
-                setFields((f) => ({ ...f, name: e.target.value }))
-              }
-            />
-            <label
-              style={{
-                fontSize: 12,
-                fontWeight: 700,
-                color: "#6B6860",
-                display: "block",
-                marginBottom: 5,
-              }}
-            >
-              Email (optional)
-            </label>
-            <input
-              type="email"
-              style={inputStyle}
-              placeholder="you@example.com"
-              value={fields.email}
-              onChange={(e) =>
-                setFields((f) => ({ ...f, email: e.target.value }))
-              }
-            />
-            <label
-              style={{
-                fontSize: 12,
-                fontWeight: 700,
-                color: "#6B6860",
-                display: "block",
-                marginBottom: 5,
-              }}
-            >
-              LinkedIn (optional)
-            </label>
-            <input
-              style={inputStyle}
-              placeholder="linkedin.com/in/yourname"
-              value={fields.linkedin}
-              onChange={(e) =>
-                setFields((f) => ({ ...f, linkedin: e.target.value }))
-              }
-            />
-            {cfg.fields.map((label, i) => (
-              <div key={i}>
-                <label
-                  style={{
-                    fontSize: 12,
-                    fontWeight: 700,
-                    color: "#6B6860",
-                    display: "block",
-                    marginBottom: 5,
-                  }}
-                >
-                  {label} {i === 0 ? "*" : ""}
-                </label>
-                <textarea
-                  style={{ ...inputStyle, resize: "vertical", minHeight: 76 }}
-                  value={fields[`f${i}` as "f0" | "f1" | "f2"]}
-                  onChange={(e) =>
-                    setFields((f) => ({ ...f, [`f${i}`]: e.target.value }))
-                  }
-                />
-              </div>
-            ))}
-            {error && (
-              <div style={{ color: "#C0392B", fontSize: 13, marginBottom: 10 }}>
-                {error}
-              </div>
-            )}
-            <button
-              onClick={handleSubmit}
-              disabled={loading}
-              style={{
-                width: "100%",
-                padding: "14px 0",
-                borderRadius: 10,
-                border: "none",
-                background: "#1B3A5C",
-                color: "#fff",
-                fontWeight: 700,
-                fontSize: 15,
-                cursor: "pointer",
-                opacity: loading ? 0.65 : 1,
-              }}
-            >
-              {loading ? "Sending…" : "Send →"}
-            </button>
-          </>
-        ) : (
-          <div style={{ textAlign: "center", padding: "20px 0" }}>
-            <div style={{ fontSize: 44, marginBottom: 14 }}>✨</div>
-            <div
-              style={{
-                fontSize: 20,
-                fontWeight: 700,
-                fontFamily: "'Lora', Georgia, serif",
-                marginBottom: 10,
-              }}
-            >
-              Thank you!
-            </div>
-            <div
-              style={{
-                fontSize: 14,
-                color: "#6B6860",
-                lineHeight: 1.8,
-                marginBottom: 24,
-              }}
-            >
-              Your submission has been received. Temitope will review it and
-              follow up if you left contact details.
-            </div>
-            <button
-              onClick={onClose}
-              style={{
-                padding: "11px 28px",
-                borderRadius: 10,
-                border: "1px solid #E8E6E1",
-                background: "#F3F2EF",
-                fontSize: 14,
-                fontWeight: 600,
-                cursor: "pointer",
-              }}
-            >
-              Close
-            </button>
+    <ModalShell onClose={onClose} ariaLabel={cfg.title} maxWidth="max-w-[460px]">
+      {!sent ? (
+        <>
+          <div className="font-display font-bold text-xl text-ink mb-1.5">
+            {cfg.title}
           </div>
-        )}
-      </div>
-    </div>
+          <div className="text-[13px] text-muted leading-[1.7] mb-5">
+            {cfg.sub}
+          </div>
+
+          <label className="label-tag">Your name *</label>
+          <input
+            className="input-field mb-3.5"
+            placeholder="Name or alias"
+            value={fields.name}
+            onChange={(e) =>
+              setFields((f) => ({ ...f, name: e.target.value }))
+            }
+          />
+
+          <label className="label-tag">Email (optional)</label>
+          <input
+            type="email"
+            className="input-field mb-3.5"
+            placeholder="you@example.com"
+            value={fields.email}
+            onChange={(e) =>
+              setFields((f) => ({ ...f, email: e.target.value }))
+            }
+          />
+
+          <label className="label-tag">LinkedIn (optional)</label>
+          <input
+            className="input-field mb-3.5"
+            placeholder="linkedin.com/in/yourname"
+            value={fields.linkedin}
+            onChange={(e) =>
+              setFields((f) => ({ ...f, linkedin: e.target.value }))
+            }
+          />
+
+          {cfg.fields.map((label, i) => (
+            <div key={i}>
+              <label className="label-tag">
+                {label} {i === 0 ? "*" : ""}
+              </label>
+              <textarea
+                className="textarea-field mb-3.5 min-h-[76px] !resize-y"
+                value={fields[`f${i}` as "f0" | "f1" | "f2"]}
+                onChange={(e) =>
+                  setFields((f) => ({ ...f, [`f${i}`]: e.target.value }))
+                }
+              />
+            </div>
+          ))}
+          {error && (
+            <div className="text-[#C0392B] text-[13px] mb-2.5">{error}</div>
+          )}
+          <button
+            onClick={handleSubmit}
+            disabled={loading}
+            className="btn-primary w-full mt-2"
+          >
+            {loading ? "Sending…" : "Send →"}
+          </button>
+        </>
+      ) : (
+        <div className="text-center py-5">
+          <div className="text-[44px] mb-3.5" aria-hidden>
+            ✨
+          </div>
+          <div className="font-display font-bold text-xl mb-2.5">
+            Thank you!
+          </div>
+          <div className="text-sm text-muted leading-[1.8] mb-6">
+            Your submission has been received. Temitope will review it and
+            follow up if you left contact details.
+          </div>
+          <button onClick={onClose} className="btn-secondary px-7">
+            Close
+          </button>
+        </div>
+      )}
+    </ModalShell>
   );
 }

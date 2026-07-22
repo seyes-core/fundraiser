@@ -8,28 +8,17 @@ import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Tag } from "@/components/ui/Tag";
 import { Divider } from "@/components/ui/Divider";
 import { CAMPAIGN, SKILLS_CURRENT, SKILLS_LEARNING } from "@/lib/constants";
+import { StickyCTA } from "@/components/ui/StickyCTA";
 
 export default function AboutPage() {
   const [donateOpen, setDonateOpen] = useState(false);
 
   return (
-    <>
+    <div className="pb-14 sm:pb-0">
       <Nav onDonate={() => setDonateOpen(true)} />
-      <main
-        style={{ maxWidth: 800, margin: "0 auto", padding: "60px 20px 80px" }}
-      >
+      <main className="max-w-[800px] mx-auto px-5 sm:px-8 pt-10 sm:pt-14 pb-16 sm:pb-20">
         <SectionLabel>About</SectionLabel>
-        <h1
-          style={{
-            fontSize: "clamp(28px,5vw,44px)",
-            fontWeight: 700,
-            color: "#1A1917",
-            margin: "0 0 32px",
-            lineHeight: 1.15,
-          }}
-        >
-          Temitope Ogungbuji
-        </h1>
+        <h1 className="heading-1 m-0 mb-8">Temitope Ogungbuji</h1>
 
         {/* Bio */}
         <div
@@ -93,15 +82,8 @@ export default function AboutPage() {
           </p>
         </div>
 
-        {/* Skills grid */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: 14,
-            marginBottom: 20,
-          }}
-        >
+        {/* Skills grid — stacks on mobile */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-5">
           <div
             style={{
               background: "#FFFFFF",
@@ -331,47 +313,26 @@ export default function AboutPage() {
 
         <Divider my={40} />
 
-        <div style={{ textAlign: "center" }}>
+        <div className="flex flex-col sm:flex-row gap-3 justify-center text-center">
           <a
             href={CAMPAIGN.GITHUB}
             target="_blank"
             rel="noopener noreferrer"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              padding: "11px 22px",
-              borderRadius: 10,
-              border: "1.5px solid #E8E6E1",
-              background: "#F3F2EF",
-              color: "#1A1917",
-              fontWeight: 600,
-              fontSize: 14,
-              textDecoration: "none",
-              marginRight: 12,
-            }}
+            className="btn-secondary w-full sm:w-auto"
           >
             🐙 View on GitHub
           </a>
           <button
             onClick={() => setDonateOpen(true)}
-            style={{
-              padding: "11px 22px",
-              borderRadius: 10,
-              border: "none",
-              background: "#1B3A5C",
-              color: "#fff",
-              fontWeight: 700,
-              fontSize: 14,
-              cursor: "pointer",
-            }}
+            className="btn-primary w-full sm:w-auto"
           >
             Support Temitope
           </button>
         </div>
       </main>
       <Footer />
+      <StickyCTA onClick={() => setDonateOpen(true)} />
       {donateOpen && <DonateModal onClose={() => setDonateOpen(false)} />}
-    </>
+    </div>
   );
 }

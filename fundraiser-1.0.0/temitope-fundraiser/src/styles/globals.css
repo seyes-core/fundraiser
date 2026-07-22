@@ -5,21 +5,50 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    /* ---- Design tokens (mobile design system) ---- */
+
+    /* Brand */
+    --color-ink: #1a1917;
+    --color-brand: #1b3a5c; /* structural navy — headers, tints, quote panels */
+    --color-brand-deep: #122a45;
+    --color-brand-tint: #eef3f8; /* pale section background */
+    --color-accent: #b4770e; /* CTA-only amber, use sparingly */
+    --color-surface: #ffffff;
+    --color-canvas: #fafaf8;
+
+    /* Type scale — headlines stay large on mobile, don't over-shrink */
+    --font-size-h1: clamp(2.125rem, 7vw, 3.25rem); /* 34px → 52px */
+    --font-size-h2: clamp(1.625rem, 5vw, 2.25rem); /* 26px → 36px */
+    --font-size-h3: clamp(1.185rem, 4vw, 1.375rem); /* 19px → 22px */
+    --font-size-body: 1rem;
+    --leading-tight: 1.08;
+    --leading-body: 1.55;
+
+    /* Spacing rhythm between sections */
+    --space-section: clamp(3rem, 9vw, 5rem);
+    --space-card-padding: clamp(1.25rem, 4.5vw, 1.75rem);
+  }
+
   * {
     box-sizing: border-box;
   }
+
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
   }
+
   body {
-    background-color: #fafaf8;
-    color: #1a1917;
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
     font-family: "Inter", system-ui, sans-serif;
-    line-height: 1.6;
+    line-height: var(--leading-body);
     margin: 0;
   }
+
   h1,
   h2,
   h3,
@@ -28,14 +57,104 @@
     line-height: 1.2;
     letter-spacing: -0.02em;
   }
+
   ::selection {
     background-color: #c8d8e8;
     color: #1b3a5c;
   }
+
   :focus-visible {
     outline: 2px solid #1b3a5c;
     outline-offset: 3px;
     border-radius: 4px;
+  }
+}
+
+@layer components {
+  /* Content container */
+  .container-site {
+    @apply max-w-content mx-auto px-5 sm:px-8;
+  }
+
+  /* Section rhythm — vertical padding scales fluidly with viewport */
+  .section-pad {
+    padding-top: var(--space-section);
+    padding-bottom: var(--space-section);
+  }
+
+  /* Fluid headline utilities */
+  .heading-1 {
+    @apply font-display font-bold text-ink text-h1;
+  }
+  .heading-2 {
+    @apply font-display font-bold text-ink text-h2;
+  }
+  .heading-3 {
+    @apply font-display font-bold text-ink text-h3;
+  }
+
+  /* Buttons — 44px minimum tap target, accent reserved for primary action */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-[10px]
+           font-semibold transition-colors duration-150 cursor-pointer
+           min-h-tap px-6 text-[15px] no-underline
+           disabled:opacity-60 disabled:cursor-not-allowed;
+  }
+  /* Accent is reserved EXCLUSIVELY for the primary action (Donate) */
+  .btn-primary {
+    @apply btn bg-accent text-white font-bold hover:bg-accent-hover active:bg-accent-hover border-0;
+  }
+  .btn-secondary {
+    @apply btn border border-line bg-surface text-ink hover:bg-subtle active:bg-subtle;
+  }
+  .btn-ghost {
+    @apply btn border-[1.5px] border-navy bg-transparent text-navy font-bold hover:bg-navy-light;
+  }
+
+  /* Card */
+  .card {
+    @apply bg-surface border border-line rounded-card;
+    padding: var(--space-card-padding);
+  }
+
+  /* Tappable link row — bold label + arrow, hairline divider, ≥56px tall */
+  .link-row {
+    @apply flex items-center justify-between gap-3 py-5 border-t border-ink/10
+           first:border-t-0 no-underline text-inherit
+           active:opacity-60 transition-opacity min-h-[56px];
+  }
+
+  /* Form fields */
+  .input-field {
+    @apply w-full rounded-[10px] border-[1.5px] border-line bg-canvas px-3.5 py-3
+           text-base sm:text-sm text-ink font-sans outline-none
+           focus:border-navy transition-colors;
+  }
+
+  .label-tag {
+    @apply block text-xs font-bold text-muted mb-1.5;
+  }
+
+  /* ---- Legacy component classes (used by /campaign + SiteLayout pages) ---- */
+  .section {
+    @apply py-16 sm:py-20;
+  }
+  .card-muted {
+    @apply bg-mist border border-rule rounded-xl;
+    padding: var(--space-card-padding);
+  }
+  .progress-bar-track {
+    @apply w-full bg-stone-100 rounded-full h-2.5 overflow-hidden;
+  }
+  .progress-bar-fill {
+    @apply h-full bg-navy rounded-full transition-all duration-700 ease-out;
+  }
+  .tag {
+    @apply inline-flex items-center gap-1.5 rounded-full bg-mist border border-rule
+           text-xs font-medium text-stone-600 px-3 py-1;
+  }
+  .textarea-field {
+    @apply input-field resize-none;
   }
 }
 

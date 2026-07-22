@@ -7,6 +7,7 @@ import { SectionLabel } from "@/components/ui/SectionLabel";
 import { StatCard } from "@/components/ui/StatCard";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { Divider } from "@/components/ui/Divider";
+import { StickyCTA } from "@/components/ui/StickyCTA";
 import { LAPTOP_SPECS } from "@/lib/constants";
 import { formatNaira, formatDate } from "@/lib/format";
 import type { CampaignStats, CampaignUpdate } from "@/types";
@@ -36,23 +37,11 @@ export default function TransparencyPage() {
   }, []);
 
   return (
-    <>
+    <div className="pb-14 sm:pb-0">
       <Nav onDonate={() => setDonateOpen(true)} />
-      <main
-        style={{ maxWidth: 800, margin: "0 auto", padding: "60px 20px 80px" }}
-      >
+      <main className="max-w-[800px] mx-auto px-5 sm:px-8 pt-10 sm:pt-14 pb-16 sm:pb-20">
         <SectionLabel>Transparency</SectionLabel>
-        <h1
-          style={{
-            fontSize: "clamp(26px,5vw,42px)",
-            fontWeight: 700,
-            color: "#1A1917",
-            margin: "0 0 12px",
-            lineHeight: 1.15,
-          }}
-        >
-          Campaign Transparency
-        </h1>
+        <h1 className="heading-1 m-0 mb-3">Campaign Transparency</h1>
         <p
           style={{
             fontSize: 15,
@@ -67,15 +56,8 @@ export default function TransparencyPage() {
           is purchased.
         </p>
 
-        {/* Stats */}
-        <div
-          style={{
-            display: "flex",
-            gap: 14,
-            flexWrap: "wrap",
-            marginBottom: 24,
-          }}
-        >
+        {/* Stats — 1 col on small phones, 3 across from sm */}
+        <div className="grid grid-cols-1 min-[420px]:grid-cols-3 gap-3.5 mb-6">
           <StatCard
             label="Campaign Goal"
             value={formatNaira(stats.goal_amount)}
@@ -319,26 +301,18 @@ export default function TransparencyPage() {
           )}
         </div>
 
-        <div style={{ textAlign: "center", marginTop: 36 }}>
+        <div className="text-center mt-9">
           <button
             onClick={() => setDonateOpen(true)}
-            style={{
-              padding: "13px 28px",
-              borderRadius: 10,
-              border: "none",
-              background: "#1B3A5C",
-              color: "#fff",
-              fontWeight: 700,
-              fontSize: 15,
-              cursor: "pointer",
-            }}
+            className="btn-primary w-full sm:w-auto px-7"
           >
             Donate to the Campaign
           </button>
         </div>
       </main>
       <Footer />
+      <StickyCTA onClick={() => setDonateOpen(true)} />
       {donateOpen && <DonateModal onClose={() => setDonateOpen(false)} />}
-    </>
+    </div>
   );
 }

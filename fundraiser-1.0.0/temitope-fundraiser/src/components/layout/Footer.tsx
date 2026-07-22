@@ -1,79 +1,54 @@
 import Link from "next/link";
 import { CAMPAIGN } from "@/lib/constants";
 
+const FOOTER_LINKS = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/transparency", label: "Transparency" },
+  { href: "/guestbook", label: "Guestbook" },
+];
+
 export function Footer() {
   return (
-    <footer
-      style={{
-        borderTop: "1px solid #E8E6E1",
-        background: "#FFFFFF",
-        padding: "36px 20px",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: 1060,
-          margin: "0 auto",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-start",
-          flexWrap: "wrap",
-          gap: 24,
-        }}
-      >
+    <footer className="border-t border-line bg-surface">
+      <div className="container-site py-9 flex flex-col sm:flex-row sm:justify-between sm:items-start gap-7">
         <div>
-          <div
-            style={{
-              fontFamily: "'Lora', Georgia, serif",
-              fontWeight: 700,
-              fontSize: 15,
-              color: "#1A1917",
-              marginBottom: 4,
-            }}
-          >
+          <div className="font-display font-bold text-[15px] text-ink mb-1">
             Temitope Ogungbuji
           </div>
-          <div style={{ fontSize: 12, color: "#9C9A95", marginBottom: 8 }}>
+          <div className="text-xs text-faint mb-2">
             Aspiring Software Developer · Nigeria
           </div>
           <a
             href={CAMPAIGN.GITHUB}
             target="_blank"
             rel="noopener noreferrer"
-            style={{
-              fontSize: 12,
-              color: "#6B6860",
-              textDecoration: "none",
-              display: "block",
-            }}
+            className="inline-flex items-center text-xs text-muted no-underline min-h-tap sm:min-h-0"
           >
             🐙 github.com/Bambillion
           </a>
         </div>
 
         <nav aria-label="Footer navigation">
-          <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
-            {["/", "/about", "/transparency", "/guestbook"].map((href) => (
+          <div className="flex flex-col sm:flex-row gap-0 sm:gap-6">
+            {FOOTER_LINKS.map(({ href, label }) => (
               <Link
                 key={href}
                 href={href}
-                style={{
-                  fontSize: 13,
-                  color: "#6B6860",
-                  textDecoration: "none",
-                  textTransform: "capitalize",
-                }}
+                className="text-[13px] text-muted no-underline py-2.5 sm:py-0
+                           border-b border-ink/5 sm:border-0 min-h-tap sm:min-h-0
+                           flex items-center"
               >
-                {href === "/" ? "Home" : href.slice(1)}
+                {label}
               </Link>
             ))}
           </div>
         </nav>
 
-        <div style={{ fontSize: 11, color: "#9C9A95", textAlign: "right" }}>
+        <div className="text-[11px] text-faint sm:text-right leading-relaxed">
           <div>Payments secured by Flutterwave</div>
-          <div style={{ marginTop: 3 }}>Donor details remain private</div>
-          <div style={{ marginTop: 3 }}>© 2026 Temitope Ogungbuji</div>
+          <div className="mt-0.5">Donor details remain private</div>
+          <div className="mt-0.5">© 2026 Temitope Ogungbuji</div>
         </div>
       </div>
     </footer>

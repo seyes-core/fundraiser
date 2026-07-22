@@ -1,0 +1,60 @@
+﻿node.exe : npm warn Unknown env config "devdir". This will stop working in the next major version of npm. See `npm 
+help npmrc` for supported config options.
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (npm warn Unknow...config options.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+> temitope-fundraiser@1.0.0 build
+> next build
+
+  Γû▓ Next.js 14.2.5
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/26) ...
+   Generating static pages (6/26) 
+   Generating static pages (12/26) 
+   Generating static pages (19/26) 
+ Γ£ô Generating static pages (26/26)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                              Size     First Load JS
+Γöî Γùï /                                    8.15 kB         115 kB
+Γö£ Γùï /_not-found                          871 B            88 kB
+Γö£ Γùï /about                               2.71 kB         109 kB
+Γö£ Γùï /admin                               4.32 kB        91.4 kB
+Γö£ ╞Æ /api/admin/career-support            0 B                0 B
+Γö£ ╞Æ /api/admin/donations                 0 B                0 B
+Γö£ ╞Æ /api/admin/export                    0 B                0 B
+Γö£ ╞Æ /api/admin/guestbook                 0 B                0 B
+Γö£ ╞Æ /api/admin/login                     0 B                0 B
+Γö£ ╞Æ /api/admin/stats                     0 B                0 B
+Γö£ ╞Æ /api/admin/submissions               0 B                0 B
+Γö£ ╞Æ /api/admin/updates                   0 B                0 B
+Γö£ Γùï /api/campaign/stats                  0 B                0 B
+Γö£ Γùï /api/campaign/updates                0 B                0 B
+Γö£ ╞Æ /api/career-support                  0 B                0 B
+Γö£ ╞Æ /api/donate                          0 B                0 B
+Γö£ ╞Æ /api/donations/initiate              0 B                0 B
+Γö£ ╞Æ /api/donations/verify                0 B                0 B
+Γö£ ╞Æ /api/guestbook                       0 B                0 B
+Γö£ ╞Æ /api/webhook                         0 B                0 B
+Γö£ Γùï /campaign                            1.94 kB         103 kB
+Γö£ Γùï /donate/success                      1.45 kB        95.4 kB
+Γö£ Γùï /guestbook                           2.42 kB         109 kB
+Γöö Γùï /transparency                        2.77 kB         109 kB
++ First Load JS shared by all            87.1 kB
+  Γö£ chunks/23-0af35b33a89c94fa.js        31.5 kB
+  Γö£ chunks/fd9d1056-1bc0021824c38577.js  53.6 kB
+  Γöö other shared chunks (total)          1.95 kB
+
+
+Γùï  (Static)   prerendered as static content
+╞Æ  (Dynamic)  server-rendered on demand
+

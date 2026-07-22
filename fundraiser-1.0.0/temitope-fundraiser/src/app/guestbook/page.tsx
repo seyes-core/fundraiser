@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/Footer";
 import { DonateModal } from "@/components/modals/DonateModal";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { GuestbookForm } from "@/components/sections/GuestbookForm";
+import { StickyCTA } from "@/components/ui/StickyCTA";
 import { formatDate } from "@/lib/format";
 import type { GuestbookEntry } from "@/types";
 import Link from "next/link";
@@ -23,23 +24,11 @@ export default function GuestbookPage() {
   }, []);
 
   return (
-    <>
+    <div className="pb-14 sm:pb-0">
       <Nav onDonate={() => setDonateOpen(true)} />
-      <main
-        style={{ maxWidth: 800, margin: "0 auto", padding: "60px 20px 80px" }}
-      >
+      <main className="max-w-[800px] mx-auto px-5 sm:px-8 pt-10 sm:pt-14 pb-16 sm:pb-20">
         <SectionLabel>Guestbook</SectionLabel>
-        <h1
-          style={{
-            fontSize: "clamp(26px,5vw,42px)",
-            fontWeight: 700,
-            color: "#1A1917",
-            margin: "0 0 12px",
-            lineHeight: 1.15,
-          }}
-        >
-          Words of support
-        </h1>
+        <h1 className="heading-1 m-0 mb-3">Words of support</h1>
         <p
           style={{
             fontSize: 15,
@@ -162,47 +151,26 @@ export default function GuestbookPage() {
           )}
         </div>
 
-        <div style={{ textAlign: "center", marginTop: 52 }}>
-          <p style={{ fontSize: 14, color: "#6B6860", marginBottom: 16 }}>
+        <div className="text-center mt-12">
+          <p className="text-sm text-muted mb-4">
             Want to do more than leave a message?
           </p>
-          <button
-            onClick={() => setDonateOpen(true)}
-            style={{
-              padding: "12px 24px",
-              borderRadius: 10,
-              border: "none",
-              background: "#1B3A5C",
-              color: "#fff",
-              fontWeight: 700,
-              fontSize: 14,
-              cursor: "pointer",
-              marginRight: 10,
-            }}
-          >
-            Donate to the Campaign
-          </button>
-          <Link
-            href="/"
-            style={{
-              padding: "12px 20px",
-              borderRadius: 10,
-              border: "1.5px solid #E8E6E1",
-              background: "#F3F2EF",
-              color: "#1A1917",
-              fontWeight: 600,
-              fontSize: 14,
-              textDecoration: "none",
-              display: "inline-flex",
-              alignItems: "center",
-            }}
-          >
-            Back to campaign
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <button
+              onClick={() => setDonateOpen(true)}
+              className="btn-primary w-full sm:w-auto"
+            >
+              Donate to the Campaign
+            </button>
+            <Link href="/" className="btn-secondary w-full sm:w-auto">
+              Back to campaign
+            </Link>
+          </div>
         </div>
       </main>
       <Footer />
+      <StickyCTA onClick={() => setDonateOpen(true)} />
       {donateOpen && <DonateModal onClose={() => setDonateOpen(false)} />}
-    </>
+    </div>
   );
 }

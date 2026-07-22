@@ -1,16 +1,22 @@
-export function SectionLabel({ children }: { children: React.ReactNode }) {
+import { cn } from "@/lib/utils";
+
+export function SectionLabel({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
     <div
-      style={{
-        fontSize: 11,
-        fontWeight: 700,
-        letterSpacing: "0.12em",
-        textTransform: "uppercase",
-        color: "#C8861A",
-        marginBottom: 12,
-      }}
+      className={cn(
+        "text-[11px] font-bold uppercase tracking-[0.12em] text-navy mb-3",
+        className,
+      )}
     >
       {children}
     </div>
   );
 }
+
+export default SectionLabel;
