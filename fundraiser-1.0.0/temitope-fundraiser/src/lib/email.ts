@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { escapeHtml } from "@/lib/html";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const FROM = process.env.RESEND_FROM_EMAIL ?? "noreply@example.com";
@@ -81,6 +82,8 @@ export async function notifyAdmin(data: {
     maximumFractionDigits: 0,
   }).format(data.amount);
 
+  // SECURITY_AUDIT.md Finding 004: every donor-supplied field is escaped
+  // before interpolation — none of these values are trusted HTML.
   await resend.emails.send({
     from: `Campaign Bot <${FROM}>`,
     to: ADMIN,
@@ -88,13 +91,13 @@ export async function notifyAdmin(data: {
     html: `
       <div style="font-family:monospace;font-size:14px;color:#1A1917;">
         <h3>New donation received</h3>
-        <p><strong>Amount:</strong> ${fmt}</p>
-        <p><strong>TX Ref:</strong> ${data.txRef}</p>
+        <p><strong>Amount:</strong> ${escapeHtml(fmt)}</p>
+        <p><strong>TX Ref:</strong> ${escapeHtml(data.txRef)}</p>
         <hr/>
-        <p><strong>Donor email:</strong> ${data.email || "—"}</p>
-        <p><strong>Twitter:</strong> ${data.twitter || "—"}</p>
-        <p><strong>LinkedIn:</strong> ${data.linkedin || "—"}</p>
-        <p><strong>Discord:</strong> ${data.discord || "—"}</p>
+        <p><strong>Donor email:</strong> ${escapeHtml(data.email || "—")}</p>
+        <p><strong>Twitter:</strong> ${escapeHtml(data.twitter || "—")}</p>
+        <p><strong>LinkedIn:</strong> ${escapeHtml(data.linkedin || "—")}</p>
+        <p><strong>Discord:</strong> ${escapeHtml(data.discord || "—")}</p>
       </div>
     `,
   });

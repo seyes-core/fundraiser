@@ -5,7 +5,7 @@ import { rateLimit } from "@/lib/rate-limit";
 
 export async function POST(req: NextRequest) {
   const ip = req.headers.get("x-forwarded-for") ?? "unknown";
-  const { allowed } = rateLimit(`admin-login:${ip}`, 5, 300_000); // 5 attempts per 5 min
+  const { allowed } = await rateLimit(`admin-login:${ip}`, 5, 300_000); // 5 attempts per 5 min
   if (!allowed)
     return NextResponse.json({ error: "Too many attempts." }, { status: 429 });
 

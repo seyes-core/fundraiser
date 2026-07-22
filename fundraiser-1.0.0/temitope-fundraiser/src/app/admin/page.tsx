@@ -156,6 +156,15 @@ export default function AdminPage() {
 
   const exportCSV = () => window.open("/api/admin/export", "_blank");
 
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/admin/logout", { method: "POST" });
+    } finally {
+      setAuthed(false);
+      setPassword("");
+    }
+  };
+
   // ── Styles ──
   const S = {
     page: {
@@ -346,6 +355,9 @@ export default function AdminPage() {
             onClick={() => window.open("/", "_blank")}
           >
             ↗ View site
+          </button>
+          <button style={S.btn("#C0392B")} onClick={handleLogout}>
+            Log out
           </button>
         </div>
       </div>

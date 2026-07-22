@@ -22,7 +22,7 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   const ip = req.headers.get("x-forwarded-for") ?? "unknown";
-  const { allowed } = rateLimit(`guestbook:${ip}`, 3, 60_000);
+  const { allowed } = await rateLimit(`guestbook:${ip}`, 3, 60_000);
   if (!allowed)
     return NextResponse.json(
       { error: "Too many submissions. Please wait." },
@@ -43,9 +43,17 @@ export async function POST(req: NextRequest) {
       { status: 400 },
     );
 
+  // SECURITY_AUDIT.md Finding 018: honeypot field — real users never
+  // populate this hidden input, so any bot that fills every field trips
+  // it. Respond as if successful (don't tip bots off) but skip the write.
+  if (parsed.data.website) {
+    return NextResponse.json({ success: true }, { status: 201 });
+  }
+
+  const { website: _honeypot, ...entry } = parsed.data;
   const supabase = createAdminClient();
   const { error } = await supabase.from("guestbook_entries").insert({
-    ...parsed.data,
+    ...entry,
     approved: false,
   });
 

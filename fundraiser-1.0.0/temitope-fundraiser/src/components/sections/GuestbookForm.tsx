@@ -6,6 +6,7 @@ export function GuestbookForm() {
     name: "",
     social_handle: "",
     message: "",
+    website: "", // honeypot — must stay empty; see /api/guestbook
   });
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
@@ -168,6 +169,33 @@ export function GuestbookForm() {
         >
           {form.message.length}/1000
         </div>
+      </div>
+      {/* Honeypot — hidden from sighted/keyboard users, bots that fill every
+          field will trip it. `tabIndex=-1` + off-screen positioning keeps it
+          out of the tab order and away from screen readers' focus flow. */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          width: 1,
+          height: 1,
+          overflow: "hidden",
+          opacity: 0,
+          pointerEvents: "none",
+        }}
+      >
+        <label htmlFor="website">Website</label>
+        <input
+          id="website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={form.website}
+          onChange={(e) =>
+            setForm((f) => ({ ...f, website: e.target.value }))
+          }
+        />
       </div>
       {error && (
         <div style={{ color: "#C0392B", fontSize: 13, marginBottom: 12 }}>

@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { isAdminAuthenticated } from "@/lib/admin-auth";
+import { isAdminAuthenticated } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase";
+import { verifyAdminOrigin } from "@/lib/csrf";
 
 export async function GET(request: NextRequest) {
-  if (!(await isAdminAuthenticated(request))) {
+  if (!isAdminAuthenticated(request)) {
     return NextResponse.json(
       { success: false, error: "Unauthorized" },
       { status: 401 },
@@ -25,10 +26,16 @@ export async function GET(request: NextRequest) {
 }
 
 export async function PATCH(request: NextRequest) {
-  if (!(await isAdminAuthenticated(request))) {
+  if (!isAdminAuthenticated(request)) {
     return NextResponse.json(
       { success: false, error: "Unauthorized" },
       { status: 401 },
+    );
+  }
+  if (!verifyAdminOrigin(request)) {
+    return NextResponse.json(
+      { success: false, error: "Forbidden" },
+      { status: 403 },
     );
   }
 

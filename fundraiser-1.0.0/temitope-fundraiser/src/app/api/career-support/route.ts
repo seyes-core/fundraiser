@@ -5,7 +5,7 @@ import { createAdminClient } from "@/lib/supabase";
 
 export async function POST(req: NextRequest) {
   const ip = req.headers.get("x-forwarded-for") ?? "unknown";
-  const { allowed } = rateLimit(`career:${ip}`, 5, 60_000);
+  const { allowed } = await rateLimit(`career:${ip}`, 5, 60_000);
   if (!allowed)
     return NextResponse.json(
       { error: "Too many submissions." },

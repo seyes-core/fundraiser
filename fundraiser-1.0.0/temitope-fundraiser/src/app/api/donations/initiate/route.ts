@@ -15,7 +15,7 @@ const schema = z.object({
 
 export async function POST(request: NextRequest) {
   const ip = request.headers.get("x-forwarded-for") ?? "unknown";
-  const { allowed } = rateLimit(`donate:${ip}`, 5, 60_000);
+  const { allowed } = await rateLimit(`donate:${ip}`, 5, 60_000);
   if (!allowed) {
     return NextResponse.json(
       { success: false, error: "Too many requests. Please wait." },
@@ -64,7 +64,9 @@ export async function POST(request: NextRequest) {
   });
 
   if (error) {
-    console.error("Donation insert error:", error);
+    // SECURITY_AUDIT.md Finding 021: log only the error code, not the full
+    // error object.
+    console.error("Donation insert error code:", error.code);
     return NextResponse.json(
       { success: false, error: "Failed to initialize donation" },
       { status: 500 },

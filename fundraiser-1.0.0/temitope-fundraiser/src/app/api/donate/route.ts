@@ -7,7 +7,7 @@ import { generateTxRef } from "@/lib/format";
 export async function POST(req: NextRequest) {
   // Rate limit: 5 donation initiations per IP per minute
   const ip = req.headers.get("x-forwarded-for") ?? "unknown";
-  const { allowed } = rateLimit(`donate:${ip}`, 5, 60_000);
+  const { allowed } = await rateLimit(`donate:${ip}`, 5, 60_000);
   if (!allowed) {
     return NextResponse.json(
       { error: "Too many requests. Please wait a moment." },
@@ -50,7 +50,10 @@ export async function POST(req: NextRequest) {
   });
 
   if (dbError) {
-    console.error("DB error:", dbError);
+    // SECURITY_AUDIT.md Finding 021: log only the error code, never the
+    // full error object (which can include table/column names and other
+    // Supabase internals useful to an attacker who gains log access).
+    console.error("DB error code:", dbError.code);
     return NextResponse.json(
       { error: "Failed to record donation. Please try again." },
       { status: 500 },
@@ -94,7 +97,10 @@ export async function POST(req: NextRequest) {
       tx_ref: txRef,
     });
   } catch (err) {
-    console.error("Flutterwave error:", err);
+    console.error(
+      "Flutterwave error:",
+      err instanceof Error ? err.message : "unknown",
+    );
     return NextResponse.json(
       { error: "Payment gateway error. Please try again." },
       { status: 502 },

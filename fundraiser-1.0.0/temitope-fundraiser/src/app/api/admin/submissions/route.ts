@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 import { isAdminAuthenticated } from "@/lib/auth";
+import { verifyAdminOrigin } from "@/lib/csrf";
 import { createAdminClient } from "@/lib/supabase";
 
 export async function GET(req: NextRequest) {
@@ -13,14 +15,25 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({ submissions: data ?? [] });
 }
 
+const patchSchema = z.object({
+  id: z.string().uuid(),
+  status: z.enum(["new", "reviewed", "actioned"]),
+});
+
 export async function PATCH(req: NextRequest) {
   if (!isAdminAuthenticated(req))
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  const { id, status } = await req.json();
+  if (!verifyAdminOrigin(req))
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+
+  const parsed = patchSchema.safeParse(await req.json().catch(() => ({})));
+  if (!parsed.success)
+    return NextResponse.json({ error: "Invalid input" }, { status: 400 });
+
   const supabase = createAdminClient();
   await supabase
     .from("career_support_submissions")
-    .update({ status })
-    .eq("id", id);
+    .update({ status: parsed.data.status })
+    .eq("id", parsed.data.id);
   return NextResponse.json({ success: true });
 }
